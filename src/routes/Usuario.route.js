@@ -12,11 +12,13 @@ router.get("/", async (req, res) => {
 });
 
 
-router.get("/buscar", async (req, res) => {
-  const nombreDeUsuario = req.body.nombreDeUsuario;
+router.get("/buscar/:user&:password", async (req, res) => {
+  const user = req.params.user;
+  const password = req.params.password;
+  console.log(user , password);
   try { 
-    const user = await Usuario.findOne({where: {nombreDeUsuario: nombreDeUsuario}})
-    res.send(user);
+    const usuario = await Usuario.findAll({where: {nombreDeUsuario: user , contrasena: password}})
+    res.send(usuario);
   } catch (error) {
     res.status(500).json({ error: "Ha ocurrido un error" });
   }
@@ -39,7 +41,6 @@ router.post("/add", async (req, res) => {
   }
 });
 
-//Actualizar un usuario
 router.put("/update/:id_usuario", async (req, res) => {
   const id_usuario = req.params.id_usuario;
   const { nombreDeUsuario, contrasena } = req.body;
@@ -54,7 +55,7 @@ router.put("/update/:id_usuario", async (req, res) => {
   }
 });
 
-//Eliminar un usuario por ID
+
 router.delete("/delete/:id_usuario", async (req, res) => {
   try { 
     const usuario = await Usuario.destroy({ where: { id_usuario: req.params.id_usuario} });

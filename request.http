@@ -12,10 +12,8 @@ Content-Type: application/json
 GET http://localhost:3000/usuario/ HTTP/1.1
 
 ###
-GET http://localhost:3000/usuario/buscar/ HTTP/1.1
-Content-Type: application/json
+GET http://localhost:3000/usuario/buscar/Michel&123456 HTTP/1.1
 
-{ "nombreDeUsuario": "Saul21" }
 ###
 DELETE http://localhost:3000/usuario/delete/2 HTTP/1.1
 
@@ -28,5 +26,32 @@ Content-Type: application/json
     "contrasena": "joalmoso123"
 }
 
+//Metodos chat
 
+###
+GET http://localhost:3000/chat/ HTTP/1.1
 
+###
+POST http://localhost:3000/chat/add HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_chat":2,
+    "Contenido":"Saul mampo",
+    "Emisor":"Saul",
+    "Destinatario":"Michi"
+}
+
+// Tareas
+
+###
+POST  http://localhost:3000/tareas/add HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_usuario":2,
+    "Titulo":"Tarea sistemas digitales",
+    "Fecha":"01/19/2024",
+    "Grado":"1",
+    "Contenido":"Reporte de proyecto 2"
+}
