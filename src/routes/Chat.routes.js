@@ -1,9 +1,8 @@
-const router1 = require("express").Router();
+const router = require("express").Router();
 const Chat = require("../model/Chat.model");
 
-
-router1.get("/", async (req, res) => {
-  try { 
+router.get("/", async (req, res) => {
+  try {
     const chat = await Chat.findAll();
     res.send(chat);
   } catch (error) {
@@ -11,12 +10,11 @@ router1.get("/", async (req, res) => {
   }
 });
 
-router1.post("/add", async (req, res) => {
-  const { id_chat,Contenido,Emisor,Destinatario} = req.body;
-  try { 
-    await Chat.sync()
+router.post("/add", async (req, res) => {
+  const { id_chat, Contenido, Emisor, Destinatario } = req.body;
+  try {
     const chat = await Chat.create({
-      id_chat:id_chat,
+      id_chat: id_chat,
       Contenido: Contenido,
       Emisor: Emisor,
       Destinatario: Destinatario
@@ -28,5 +26,4 @@ router1.post("/add", async (req, res) => {
   }
 });
 
-
-module.exports = router1;
+module.exports = router;

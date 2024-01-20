@@ -12,14 +12,15 @@ const Chat = sequelize.define('Chat', {
   Emisor: {
     type: DataTypes.STRING
   },
-  Destinatario:{
+  Destinatario: {
     type: DataTypes.STRING
   },
-  Fecha:{
-    type:DataTypes.DATE, defaultValue:Date.now
+  Fecha: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   }
 }, {
-  timestamps: false 
+  timestamps: false
 });
 
 module.exports = Chat;
