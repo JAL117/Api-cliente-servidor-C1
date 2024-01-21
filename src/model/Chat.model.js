@@ -1,4 +1,4 @@
-const sequelize = require('../../db');
+const sequelize = require('../config/db');
 const { DataTypes } = require('sequelize');
 const Usuario = require("./Usuario.model")
 
@@ -24,6 +24,9 @@ const Chat = sequelize.define('Chat', {
   Fecha: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
+  },Grupo:{
+    type : DataTypes.STRING
+
   }
 }, {
   timestamps: false

@@ -1,4 +1,4 @@
-const sequelize = require('../../db');
+const sequelize = require('../config/db');
 const { DataTypes } = require('sequelize');
 
 const Usuario = sequelize.define('Usuario', {
@@ -10,6 +10,8 @@ const Usuario = sequelize.define('Usuario', {
     type: DataTypes.STRING
   },
   contrasena: {
+    type: DataTypes.STRING
+  },grupo:{
     type: DataTypes.STRING
   }
 }, {

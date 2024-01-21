@@ -26,13 +26,14 @@ router.get("/buscar/:user&:password", async (req, res) => {
 
 
 router.post("/add", async (req, res) => {
-  const { id_usuario, nombreDeUsuario, contrasena } = req.body;
+  const { id_usuario, nombreDeUsuario, contrasena , grupo } = req.body;
   try { 
     await Usuario.sync()
     const usuario = await Usuario.create({
       id_usuario:id_usuario,
       nombreDeUsuario: nombreDeUsuario,
-      contrasena: contrasena
+      contrasena: contrasena,
+      grupo : grupo
     });
     res.json(usuario);
   } catch (error) {
