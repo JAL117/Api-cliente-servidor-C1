@@ -1,10 +1,16 @@
 const sequelize = require('../../db');
 const { DataTypes } = require('sequelize');
+const Usuario = require("./Usuario.model")
 
 const Chat = sequelize.define('Chat', {
-  id_chat: {
+  id_usuario: {
     type: DataTypes.INTEGER,
-    primaryKey: true
+    onDelete:'CASCADE',
+    onUpdate:'CASCADE',
+    references:{
+      model: Usuario,
+      key:'id_usuario'
+    }
   },
   Contenido: {
     type: DataTypes.STRING

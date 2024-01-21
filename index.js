@@ -14,7 +14,7 @@ const io = new SocketServer(server, {
 io.on('connection', (socket) => {
   console.log('Nuevo cliente conectado');
 
-  // Manejar eventos de mensajes
+ 
   socket.on('mensaje', (data) => {
     // Aquí puedes realizar las operaciones necesarias para guardar el mensaje en la base de datos
     console.log('Mensaje recibido:', data);
