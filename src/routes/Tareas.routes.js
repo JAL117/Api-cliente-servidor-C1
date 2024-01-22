@@ -1,7 +1,9 @@
 const express = require("express");
 const router2 = express.Router();
 const Tareas = require("../model/Tareas.model");
-
+const cors = require("cors");
+router2.use(cors());
+const clients = [];
 router2.get("/", async (req, res) => {
   try {
     const tarea = await Tareas.findAll();
@@ -50,12 +52,20 @@ router2.post("/add", async (req, res) => {
       Grado: Grado,
       Contenido: Contenido,
     });
-    res.json(tarea);
+  
+    clients.forEach((client) => {
+      client.json(tarea);
+    });
+  
+    res.json([]);
+    
   } catch (error) {
     res.status(500).json({ error: "Ha ocurrido un error" });
     console.log(error);
   }
 });
+
+
 
 router2.delete("/eliminar/:id_usuario", async (req, res) => {
   try {
@@ -70,9 +80,36 @@ router2.delete("/eliminar/:id_usuario", async (req, res) => {
     });
 
     res.sendStatus(204);
+
+
   } catch (error) {
     res.status(500).json({ error: "Ha ocurrido un error" });
   }
 });
+
+
+
+router2.get("/buscar/long-polling/:id_usuario", async (req, res) => {
+  try {
+    const id_usuario = req.params.id_usuario;
+
+    const tareasU = await Tareas.findAll({
+      where: { id_usuario: id_usuario },
+    });
+
+    if (tareasU.length > 0) {
+      res.json(tareasU);
+    } else {
+      clients.push(res);
+
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Ha ocurrido un error" });
+  }
+});
+
+
+
 
 module.exports = router2;
