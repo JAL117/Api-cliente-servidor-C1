@@ -1,9 +1,13 @@
-const app = require("./app");
-require("dotenv").config();
-const http = require('http');
 const { Server: SocketServer } = require('socket.io');
 const express = require('express');
+const http = require('http');
+const app = require("./app");
+require("dotenv").config();
 
+// Definir roomMessages en el alcance global
+const roomMessages = {};
+
+// Configurar el servidor HTTP y Socket.IO
 const server = http.createServer(app);
 const io = new SocketServer(server, {
   cors: {
@@ -11,14 +15,15 @@ const io = new SocketServer(server, {
   }
 });
 
+// Configurar la aplicación Express
 app.use(express.static('build'));
 
-
+// Resto del código del servidor Socket.IO
 io.on('connection', (socket) => {
 
   socket.on('join room', (room) => {
-    socket.join(room); 
-    socket.room = room; 
+    socket.join(room);
+    socket.room = room;
 
     socket.emit('load messages', roomMessages[room] || []);
 
@@ -29,8 +34,8 @@ io.on('connection', (socket) => {
     const room = socket.room;
 
     if (room) {
-      socket.leave(room); 
-      socket.room = null; 
+      socket.leave(room);
+      socket.room = null;
 
       io.to(room).emit('user left', socket.id);
     }
@@ -40,7 +45,6 @@ io.on('connection', (socket) => {
     const room = socket.room;
 
     if (room) {
-
       roomMessages[room] = roomMessages[room] || [];
       roomMessages[room].push({ message: data.message, sender: socket.id });
 
@@ -57,7 +61,7 @@ io.on('connection', (socket) => {
       'Matemáticas II',
       'Ética',
     ];
-    
+
     for (const room in rooms) {
       if (!rooms[room].sockets.hasOwnProperty(room) && room !== socket.id) {
         roomList.push(room);

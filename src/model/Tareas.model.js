@@ -2,7 +2,7 @@ const sequelize = require("../config/db");
 const { DataTypes } = require("sequelize");
 const Usuario = require("./Usuario.model");
 
-const Chat = sequelize.define(
+const Tareas = sequelize.define(
   "Tareas",
   {
     id_usuario: {
@@ -33,4 +33,4 @@ const Chat = sequelize.define(
   }
 );
 
-module.exports = Chat;
+module.exports = Tareas;

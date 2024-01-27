@@ -37,10 +37,10 @@ POST http://localhost:3000/chat/add HTTP/1.1
 Content-Type: application/json
 
 {
-    "id_usuario":2,
-    "Contenido":"Saul mampo",
-    "Emisor":"Saul",
-    "Destinatario":"Michi"
+    "id_usuario":1,
+    "Contenido":"Saul mampo321",
+    "Room":"Arquitectura de software"
+ 
 }
 
 // Tareas

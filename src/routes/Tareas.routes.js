@@ -1,10 +1,11 @@
 const express = require("express");
-const router2 = express.Router();
+const router = express.Router();
 const Tareas = require("../model/Tareas.model");
 const cors = require("cors");
-router2.use(cors());
+router.use(cors());
 const clients = [];
-router2.get("/", async (req, res) => {
+
+router.get("/", async (req, res) => {
   try {
     const tarea = await Tareas.findAll();
     res.send(tarea);
@@ -13,7 +14,7 @@ router2.get("/", async (req, res) => {
   }
 });
 
-router2.get("/buscar/:id_usuario", async (req, res) => {
+router.get("/buscar/:id_usuario", async (req, res) => {
   try {
     const id_usuario = req.params.id_usuario;
 
@@ -27,7 +28,7 @@ router2.get("/buscar/:id_usuario", async (req, res) => {
   }
 });
 
-router2.put("/editar-fecha/:Fecha/:Id", async (req, res) => {
+router.put("/editar-fecha/:Fecha/:Id", async (req, res) => {
   const id = req.params.Id;
   const nuevaFecha = req.params.Fecha;
   try {
@@ -41,7 +42,7 @@ router2.put("/editar-fecha/:Fecha/:Id", async (req, res) => {
   }
 });
 
-router2.post("/add", async (req, res) => {
+router.post("/add", async (req, res) => {
   const { id_usuario, Titulo, Fecha, Grado, Contenido } = req.body;
   try {
     await Tareas.sync();
@@ -52,22 +53,20 @@ router2.post("/add", async (req, res) => {
       Grado: Grado,
       Contenido: Contenido,
     });
-  
+
+    // Notificar a los clientes sobre la creación de una nueva tarea
     clients.forEach((client) => {
-      client.json(tarea);
+      client.json({ success: true, message: "Nueva tarea creada", tarea });
     });
-  
+
     res.json([]);
-    
   } catch (error) {
     res.status(500).json({ error: "Ha ocurrido un error" });
     console.log(error);
   }
 });
 
-
-
-router2.delete("/eliminar/:id_usuario", async (req, res) => {
+router.delete("/eliminar/:id_usuario", async (req, res) => {
   try {
     const id_usuario = req.params.id_usuario;
     const id_tarea = req.body.id;
@@ -79,37 +78,29 @@ router2.delete("/eliminar/:id_usuario", async (req, res) => {
       },
     });
 
+    // Notificar a los clientes sobre la eliminación de la tarea
+    clients.forEach((client) => {
+      client.json({ success: true, message: `Tarea ${id_tarea} eliminada` });
+    });
+
     res.sendStatus(204);
-
-
   } catch (error) {
     res.status(500).json({ error: "Ha ocurrido un error" });
   }
 });
 
-
-
-router2.get("/buscar/long-polling/:id_usuario", async (req, res) => {
+router.get("/short-polling/:id_usuario", async (req, res) => {
   try {
     const id_usuario = req.params.id_usuario;
 
-    const tareasU = await Tareas.findAll({
+    const tareasPendientes = await Tareas.findAll({
       where: { id_usuario: id_usuario },
     });
 
-    if (tareasU.length > 0) {
-      res.json(tareasU);
-    } else {
-      clients.push(res);
-
-    }
+    res.json(tareasPendientes);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Ha ocurrido un error" });
   }
 });
 
-
-
-
-module.exports = router2;
+module.exports = router;
