@@ -19,7 +19,6 @@ const notifyClients = (data) => {
   });
 };
 
-
 router.get("/", async (req, res) => {
   try {
     const tarea = await Tareas.findAll();
@@ -67,10 +66,12 @@ router.get("/tareas/long-polling", async (req, res) => {
     });
 
     if (nuevasTareas.length > 0) {
+      // Si hay nuevas tareas, responder al cliente y notificar a todos los clientes
       res.json(nuevasTareas);
       notifyClients({ success: true, message: "Nuevas tareas encontradas", nuevasTareas });
     } else {
-      clients.push(res); // Agregar la respuesta a la lista de clientes
+      // Si no hay nuevas tareas, agregar la respuesta del cliente a la lista de clientes
+      clients.push(res);
     }
   } catch (error) {
     console.error("Error en Long Polling:", error);
@@ -104,6 +105,7 @@ router.post("/add", async (req, res) => {
       Contenido: Contenido,
     });
 
+    // Notificar a todos los clientes sobre la nueva tarea
     notifyClients({ success: true, message: "Nueva tarea creada", tarea });
 
     res.json([]);
