@@ -5,13 +5,13 @@ const Usuario = require("./Usuario.model");
 const Tareas = sequelize.define(
   "Tareas",
   {
-    id_usuario: {
-      type: DataTypes.INTEGER,
+    grupo: {
+      type: DataTypes.STRING,
       onDelete:'CASCADE',
       onUpdate:'CASCADE',
       references:{
         model: Usuario,
-        key: 'id_usuario'
+        key: 'grupo'
 
       }
     },

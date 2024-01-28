@@ -11,18 +11,16 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/add", async (req, res) => {
-  const { id_usuario, Contenido, Room } = req.body;
+  const { grupo, Contenido } = req.body;
   try {
     await Chat.sync();
     const chat = await Chat.create({
-      id_usuario: id_usuario,
-      Contenido: Contenido,
-      Room: Room,
+      grupo: grupo,
+      Contenido: Contenido
+
     });
 
-    // Emitir el mensaje a la sala correspondiente
-    io.to(Room).emit('chat message', { message: Contenido });
-
+  
     res.json(chat);
   } catch (error) {
     res.status(500).json({ error: "Ha ocurrido un error" });

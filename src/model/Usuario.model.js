@@ -12,7 +12,8 @@ const Usuario = sequelize.define('Usuario', {
   contrasena: {
     type: DataTypes.STRING
   },grupo:{
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    primaryKey: true
   }
 }, {
   timestamps: false 

@@ -5,21 +5,20 @@ const Usuario = require("./Usuario.model");
 const Chat = sequelize.define(
   "Chat",
   {
-    id_usuario: {
-      type: DataTypes.INTEGER,
+    grupo: {
+      type: DataTypes.STRING,
       onDelete:'CASCADE',
       onUpdate:'CASCADE',
       references:{
         model: Usuario,
-        key: 'id_usuario'
-      }
+        key: 'grupo'
+
+      },
     },
     Contenido: {
       type: DataTypes.STRING,
-    },
-    Room:{
-      type: DataTypes.STRING
     }
+
   },
   {
     timestamps: false,
