@@ -13,7 +13,6 @@ const notifyClients = (data) => {
     if (!res.finished) {
       res.json(data);
     } else {
-      // Eliminar el cliente desconectado
       clients.splice(index, 1);
     }
   });
@@ -105,7 +104,7 @@ router.post("/add", async (req, res) => {
       Contenido: Contenido,
     });
 
-    // Notificar a todos los clientes sobre la nueva tarea
+    // Notifica a todos los clientes sobre la nueva tarea
     notifyClients({ success: true, message: "Nueva tarea creada", tarea });
 
     res.json([]);
@@ -127,7 +126,6 @@ router.delete("/eliminar/:grupo", async (req, res) => {
       },
     });
 
-    // Notificar a todos los clientes sobre la tarea eliminada
     notifyClients({ success: true, message: `Tarea ${id_tarea} eliminada` });
 
     res.sendStatus(204);
